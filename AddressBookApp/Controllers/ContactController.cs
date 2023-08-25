@@ -49,9 +49,23 @@ namespace AddressBookApp.Controllers
         }
 
         [HttpPost("update-contact")]
-        public async Task<IActionResult> UpdateContact(Contact contact)
+        public async Task<IActionResult> UpdateContact(Contact newContactInfo)
         {
-            throw new NotImplementedException();
+            List<Contact> contacts = await _contactRepository.GetContacts();
+
+            foreach (Contact contact in contacts)
+            {
+                if (contact.Id == newContactInfo.Id) 
+                {
+                    contact.FirstName = newContactInfo.FirstName;
+                    contact.LastName = newContactInfo.LastName;
+                    contact.Email = newContactInfo.Email;
+                    contact.Phone = newContactInfo.Phone;
+                    return new OkObjectResult(contacts);
+                }
+            }
+
+            return NotFound();
         }
 
         [HttpPost("delete-contact-by-id")]
