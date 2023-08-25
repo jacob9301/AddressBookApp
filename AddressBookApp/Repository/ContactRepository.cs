@@ -11,9 +11,18 @@ namespace AddressBookApp.Repository
             _path = path;
         }
 
-        public List<Contact> GetContacts()
+        public async Task<List<Contact>> GetContacts()
         {
-            throw new NotImplementedException();
+            try
+            {
+                string jsonString = await File.ReadAllTextAsync(_path);
+                Console.WriteLine(jsonString);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            return new List<Contact>();
         }
 
         public void WriteContacts()
