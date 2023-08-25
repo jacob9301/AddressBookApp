@@ -12,7 +12,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<IContactRepository, ContactRepository>(p =>
 {
-    string path = "contacts.json";
+    string path = builder.Configuration.GetSection("ContactsJsonPath").Value;
     return new ContactRepository(path);
 });
 
