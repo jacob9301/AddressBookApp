@@ -24,7 +24,9 @@ namespace AddressBookApp.Controllers
         [HttpGet("get-all-contacts")]
         public async Task<IActionResult> GetAllContacts()
         {
-            throw new NotImplementedException();
+            List<Contact> contacts = await _contactRepository.GetContacts();
+
+            return new OkObjectResult(contacts);
         }
 
         [HttpPost("get-contact-by-id")]
