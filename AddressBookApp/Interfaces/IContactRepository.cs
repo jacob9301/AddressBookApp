@@ -4,7 +4,7 @@ namespace AddressBookApp.Interfaces
 {
     public interface IContactRepository
     {
-        List<Contact> GetContacts();
+        Task<List<Contact>> GetContacts();
         void WriteContacts();
     }
 }
