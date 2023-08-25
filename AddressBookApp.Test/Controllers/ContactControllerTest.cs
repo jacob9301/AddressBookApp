@@ -171,5 +171,53 @@ namespace AddressBookApp.Test.Controllers
             objectResult.Value.Should().NotBeNull();
             objectResult.Value.Should().BeEquivalentTo(expectedContact);
         }
+
+        [Fact]
+        public async void ContactController_UpdateContact_ReturnOK()
+        {
+            //Arrange
+            var contacts = A.Fake<List<Contact>>();
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+            var contact = A.Fake<Contact>();
+
+            //Act
+            var result = await controller.UpdateContact(contact);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Fact]
+        public async void ContactController_UpdateContact_ReturnCorrectContacts()
+        {
+            //Arrange
+            var contactToupdate = new Contact() { Id = 3, FirstName = "Ken", LastName = "Barlow" };
+            var contacts = new List<Contact>
+            {
+                new Contact() { Id = 1, FirstName="David", LastName="Platt"},
+                new Contact() { Id = 2, FirstName="Jason", LastName="Grimshaw"},
+                new Contact() { Id = 3, FirstName = "Ken", LastName = "Smith" }
+            };
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+
+            //Act
+            var result = await controller.UpdateContact(contactToupdate);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            OkObjectResult objectResult = (OkObjectResult)result;
+            var expectedContacts = new List<Contact>
+            {
+                new Contact() { Id = 1, FirstName="David", LastName="Platt"},
+                new Contact() { Id = 2, FirstName="Jason", LastName="Grimshaw"},
+                new Contact() { Id = 3, FirstName = "Ken", LastName = "Barlow" }
+            };
+            objectResult.Value.Should().NotBeNull();
+            objectResult.Value.Should().BeEquivalentTo(expectedContacts);
+        }
     }
 }
