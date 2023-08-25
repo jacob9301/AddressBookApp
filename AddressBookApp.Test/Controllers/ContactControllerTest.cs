@@ -219,5 +219,50 @@ namespace AddressBookApp.Test.Controllers
             objectResult.Value.Should().NotBeNull();
             objectResult.Value.Should().BeEquivalentTo(expectedContacts);
         }
+
+        [Fact]
+        public async void ContactController_DeleteContactById_ReturnOK()
+        {
+            //Arrange
+            var contacts = A.Fake<List<Contact>>();
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+
+            //Act
+            var result = await controller.DeleteContactById(0);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Fact]
+        public async void ContactController_DeleteContactById_ReturnCorrectContactDeleted()
+        {
+            //Arrange
+            var contacts = new List<Contact>
+            {
+                new Contact() { Id = 1, FirstName="David", LastName="Platt"},
+                new Contact() { Id = 2, FirstName="Jason", LastName="Grimshaw"},
+                new Contact() { Id = 3, FirstName="Ken", LastName="Barlow"}
+            };
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+
+            //Act
+            var result = await controller.DeleteContactById(2);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            var expectedContacts = new List<Contact>
+            {
+                new Contact() { Id = 1, FirstName="David", LastName="Platt"},
+                new Contact() { Id = 3, FirstName="Ken", LastName="Barlow"}
+            };
+            OkObjectResult objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().NotBeNull();
+            objectResult.Value.Should().BeEquivalentTo(expectedContacts);
+        }
     }
 }
