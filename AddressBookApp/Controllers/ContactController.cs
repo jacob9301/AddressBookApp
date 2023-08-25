@@ -18,7 +18,13 @@ namespace AddressBookApp.Controllers
         [HttpPost("create-contact")]
         public async Task<IActionResult> CreateContact(Contact contact)
         {
-            throw new NotImplementedException();
+            List<Contact> contacts = await _contactRepository.GetContacts();
+
+            contacts.Add(contact);
+
+            _contactRepository.WriteContacts(contacts);
+
+            return new OkObjectResult(contacts);
         }
 
         [HttpGet("get-all-contacts")]
