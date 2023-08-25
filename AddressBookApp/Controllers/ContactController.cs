@@ -61,6 +61,9 @@ namespace AddressBookApp.Controllers
                     contact.LastName = newContactInfo.LastName;
                     contact.Email = newContactInfo.Email;
                     contact.Phone = newContactInfo.Phone;
+
+                    _contactRepository.WriteContacts(contacts);
+
                     return new OkObjectResult(contacts);
                 }
             }
@@ -71,7 +74,21 @@ namespace AddressBookApp.Controllers
         [HttpPost("delete-contact-by-id")]
         public async Task<IActionResult> DeleteContactById(int id)
         {
-            throw new NotImplementedException();
+            List<Contact> contacts = await _contactRepository.GetContacts();
+
+            foreach (Contact contact in contacts)
+            {
+                if (contact.Id == id)
+                {
+                    contacts.Remove(contact);
+
+                    _contactRepository.WriteContacts(contacts);
+
+                    return new OkObjectResult(contacts);
+                }
+            }
+
+            return NotFound();
         }
 
 
