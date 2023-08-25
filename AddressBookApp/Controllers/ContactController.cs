@@ -38,7 +38,14 @@ namespace AddressBookApp.Controllers
         [HttpPost("get-contact-by-id")]
         public async Task<IActionResult> GetContactById(int id)
         {
-            throw new NotImplementedException();
+            List<Contact> contacts = await _contactRepository.GetContacts();
+
+            foreach (Contact contact in contacts)
+            {
+                if (contact.Id == id) { return new OkObjectResult(contact); }
+            }
+
+            return NotFound();
         }
 
         [HttpPost("update-contact")]

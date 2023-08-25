@@ -132,7 +132,7 @@ namespace AddressBookApp.Test.Controllers
         }
 
         [Fact]
-        public async void ContactController_GetContactById_ReturnOK()
+        public async void ContactController_GetContactById_ReturnNotFound()
         {
             //Arrange
             var contacts = A.Fake<List<Contact>>();
@@ -144,7 +144,7 @@ namespace AddressBookApp.Test.Controllers
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().BeOfType(typeof(OkObjectResult));
+            result.Should().BeOfType<NotFoundResult>();
         }
 
         [Fact]
