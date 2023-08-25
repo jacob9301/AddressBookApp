@@ -30,19 +30,19 @@ namespace AddressBookApp.Controllers
         }
 
         [HttpPost("get-contact-by-id")]
-        public async Task<IActionResult> GetContactById()
+        public async Task<IActionResult> GetContactById(int id)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("update-contact")]
-        public async Task<IActionResult> UpdateContact()
+        public async Task<IActionResult> UpdateContact(Contact contact)
         {
             throw new NotImplementedException();
         }
 
         [HttpPost("delete-contact-by-id")]
-        public async Task<IActionResult> DeleteContactById()
+        public async Task<IActionResult> DeleteContactById(int id)
         {
             throw new NotImplementedException();
         }

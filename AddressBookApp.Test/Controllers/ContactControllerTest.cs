@@ -130,5 +130,46 @@ namespace AddressBookApp.Test.Controllers
             objectResult.Value.Should().NotBeNull();
             objectResult.Value.Should().BeEquivalentTo(expectedContacts);
         }
+
+        [Fact]
+        public async void ContactController_GetContactById_ReturnOK()
+        {
+            //Arrange
+            var contacts = A.Fake<List<Contact>>();
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+
+            //Act
+            var result = await controller.GetContactById(0);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+        }
+
+        [Fact]
+        public async void ContactController_GetContactById_ReturnCorrectContact()
+        {
+            //Arrange
+            var expectedContact = new Contact() { Id = 3, FirstName = "Ken", LastName = "Barlow" };
+            var contacts = new List<Contact>
+            {
+                new Contact() { Id = 1, FirstName="David", LastName="Platt"},
+                new Contact() { Id = 2, FirstName="Jason", LastName="Grimshaw"},
+                expectedContact
+            };
+            A.CallTo(() => _contactRepository.GetContacts()).Returns(Task.FromResult(contacts));
+            var controller = new ContactController(_contactRepository);
+
+            //Act
+            var result = await controller.GetContactById(3);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType(typeof(OkObjectResult));
+            OkObjectResult objectResult = (OkObjectResult)result;
+            objectResult.Value.Should().NotBeNull();
+            objectResult.Value.Should().BeEquivalentTo(expectedContact);
+        }
     }
 }
