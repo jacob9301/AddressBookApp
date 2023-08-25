@@ -16,7 +16,7 @@ namespace AddressBookApp.Controllers
         }
 
         [HttpPost("create-contact")]
-        public async Task<IActionResult> CreateContact()
+        public async Task<IActionResult> CreateContact(Contact contact)
         {
             throw new NotImplementedException();
         }
