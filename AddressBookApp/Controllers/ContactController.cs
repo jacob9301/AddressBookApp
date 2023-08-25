@@ -1,4 +1,5 @@
-﻿using AddressBookApp.Models;
+﻿using AddressBookApp.Interfaces;
+using AddressBookApp.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AddressBookApp.Controllers
@@ -7,6 +8,13 @@ namespace AddressBookApp.Controllers
     [Route("[controller]")]
     public class ContactController : ControllerBase
     {
+        private IContactRepository _contactRepository;
+
+        public ContactController(IContactRepository contactRepository)
+        {
+            _contactRepository = contactRepository;
+        }
+
         [HttpPost("create-contact")]
         public async Task<IActionResult> CreateContact()
         {
