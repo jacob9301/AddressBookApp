@@ -33,9 +33,16 @@ namespace AddressBookApp.Repository
             return new List<Contact>();
         }
 
-        public void WriteContacts()
+        public void WriteContacts(List<Contact> contacts)
         {
-            throw new NotImplementedException();
+            try
+            {
+                string jsonString = JsonConvert.SerializeObject(contacts);
+                File.WriteAllText(_path, jsonString);
+            } catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
